@@ -1,6 +1,7 @@
 from itertools import chain
 from sqlalchemy import case, func, text, BigInteger, Boolean, Column, DateTime, Float, Integer, String, Table
-from sqlalchemy.dialects.postgresql import ARRAY, INT8RANGE
+# from sqlalchemy.dialects.postgresql import ARRAY, INT8RANGE
+from sqlalchemy.dialects.postgresql import NUMERIC
 from sqlalchemy.sql.expression import and_, or_, between, join, label
 from geoalchemy2 import Geometry
 from geoalchemy2.functions import GenericFunction, ST_Intersects, ST_X, ST_Y
@@ -84,8 +85,8 @@ class Aggregator(object):
                 Column('id', BigInteger, primary_key = True),
                 Column('time', DateTime),
                 Column('location', Geometry("POINT", srid=4326)),
-                Column('client_ip', BigInteger),
-                Column('server_ip', BigInteger),
+                Column('client_ip', Numeric),
+                Column('server_ip', Numeric),
                 Column('countrtt', BigInteger),
                 Column('sumrtt', BigInteger),
                 Column('download_flag', Boolean),
