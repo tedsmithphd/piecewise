@@ -302,7 +302,7 @@ class ISPBins(Bins):
 
     def build_query_to_populate(self, query, full_table, aggregate_table):
         insert_columns = [aggregate_table.c.isp]
-        ip_range = Column("ip_range", NUMERIC)
+        ip_range = Column("ip_range", NUMRANGE)
         isp_name = Column("label", String)
         join_table = Table(self.maxmind_table, full_table.metadata, ip_range, isp_name, keep_existing = True)
         isp_label = label('maxmind_isp', self._sql_rewrite(isp_name))
