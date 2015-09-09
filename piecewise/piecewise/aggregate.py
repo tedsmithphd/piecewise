@@ -1,7 +1,7 @@
 from itertools import chain
 from sqlalchemy import case, func, text, BigInteger, Boolean, Column, DateTime, Float, Integer, String, Table
 # from sqlalchemy.dialects.postgresql import ARRAY, INT8RANGE
-from sqlalchemy.dialects.postgresql import NUMERIC
+from sqlalchemy.dialects.postgresql import ARRAY, NUMERIC
 from sqlalchemy.sql.expression import and_, or_, between, join, label
 from geoalchemy2 import Geometry
 from geoalchemy2.functions import GenericFunction, ST_Intersects, ST_X, ST_Y
