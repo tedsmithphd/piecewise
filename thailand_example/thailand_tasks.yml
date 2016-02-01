@@ -1,0 +1,17 @@
+---
+- name: Copy geo data to server
+  copy: src=thailand_example/{{ item.src }} dest=/opt/bq2geojson/{{ item.dest }}
+  with_items:
+      - { src: shapefiles/ , dest: shapefiles/ }
+      - { src: center.js, dest: html/js/center.js }
+      - { src: THA_adm1.topojson, dest: html/THA_adm1.topojson }
+- name: Copy extra_data.py to server
+  copy: src=thailand_example/extra_data.py dest=/opt/piecewise/
+- pip: name=ipaddress state=latest
+- name: Ingest Thai provinces to postgres
+  command: ogr2ogr -f PostgreSQL -t_srs EPSG:4326 -nln thailand_provinces -nlt MultiPolygon 'PG:user=postgres dbname=piecewise' /opt/bq2geojson/shapefiles/THA_adm1.shp
+- name: Install Thailand piecewise configuration
+  copy: src=thailand_example/piecewise_config.json dest=/etc/piecewise/config.json
+- name: Restart uwsgi so piecewise config is detected
+  service: name=uwsgi state=restarted
+- command: python extra_data.py chdir=/opt/piecewise
